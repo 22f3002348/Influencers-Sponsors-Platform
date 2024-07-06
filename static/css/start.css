@@ -11,10 +11,6 @@ h3{
     text-align: center;
 }
 
-.container{
-    position: absolute;
-}
-
 .container {
     width: 300px;
     border: 15px solid rgb(90, 138, 229);
@@ -24,6 +20,12 @@ h3{
     top: 170px;
 }
 
+#rcorner{
+    border-radius: 25px;
+    padding: 20px; 
+    width: 105px;
+    height: 20px;
+}
 
 .button{
     background-color: #005938;

@@ -1,0 +1,17 @@
+body{
+    background-color: aqua;
+}
+
+h1{
+    text-align: center;
+    color: blue;
+}
+
+.con {
+    width: 300px;
+    border: 15px solid rgb(90, 138, 229);
+    padding: 50px;
+    margin: auto;
+    position: relative;
+    top: 170px;
+}
