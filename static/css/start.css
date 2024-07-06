@@ -1,0 +1,37 @@
+body{
+    background-color: aqua;
+}
+
+h1{
+    text-align: center;
+    color: blue;
+}
+
+h3{
+    text-align: center;
+}
+
+.container{
+    position: absolute;
+}
+
+.container {
+    width: 300px;
+    border: 15px solid rgb(90, 138, 229);
+    padding: 50px;
+    margin: auto;
+    position: relative;
+    top: 170px;
+}
+
+
+.button{
+    background-color: #005938;
+    font-size: 16px;
+    color: rgb(249, 229, 100);
+    padding: 19px 55px;
+    text-align: center;
+    text-decoration: solid;
+    display: inline-block;
+    
+}
