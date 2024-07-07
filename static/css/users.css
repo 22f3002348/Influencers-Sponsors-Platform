@@ -1,0 +1,27 @@
+h3{
+    text-align: center;
+}
+body{
+    background-color: aqua;
+}
+
+h1{
+    text-align: center;
+    color: blue;
+    padding-bottom: 20px;
+}
+.container {
+    width: 400px;
+    border: 15px solid rgb(90, 138, 229);
+    padding: 50px;
+    margin: auto;
+    position: relative;
+    top: 200px;
+}
+
+#rcorner{
+    border-radius: 25px;
+    padding: 20px; 
+    width: 130px;
+    height: 65px;
+}
