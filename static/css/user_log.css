@@ -12,23 +12,14 @@ h1{
     padding: 50px;
     margin: auto;
     position: relative;
-    top: 170px;
+    top: 150px;
 }
 
-.button{
-    background-color: #005938;
-    font-size: 16px;
-    color: rgb(249, 229, 100);
-    padding: 19px 55px;
-    text-align: center;
-    text-decoration: solid;
-    display: inline-block;
-    
-}
 
 h5{
     text-align: center;
     color: rgb(113, 126, 211);
+    padding: 25px;
 }
 
 #rcorner{
@@ -43,15 +34,6 @@ h5{
 .center{
     margin: 0;
     position: absolute;
-    top: 63%;
+    top: 83%;
     left: 35%;
-}
-
-.register {
-    width: 500px;
-    border: 15px solid rgb(90, 138, 229);
-    padding: 70px;
-    margin: auto;
-    position: relative;
-    top: 150px;
 }
