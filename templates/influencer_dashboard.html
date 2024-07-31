@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            Influencer Dashboard
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}"/>   
+    </head>
+    <body>
+        <header>
+            <div class="Pic">
+                <h3>Welcome Influencer!</h3>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#profile" id="Profile">Profile</a></li>
+                    <li><a href="#find" id="Find">Find</a></li>
+                    <li><a href="#campaigns" id="Campaigns">Campaigns</a></li>
+                    <li><a href="#status" id="Status">Status</a></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+        <h2>Profile</h2>    
+        <div class="container" id="profile">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/HARI2.jpg') }}" alt="profile pic">
+            </div>
+            <div class = "details">
+                    <div class="row border">
+                        <label for="name" class="form-label">Name: {{d["name"]}}</label>
+                    </div>
+                    <div class="row border">
+                        <label for="username" class="form-label">Username: {{d["username"]}}</label>
+                    </div>
+                    <div class="row border">
+                        <label for="email" class="form-label">Email: {{d["email"]}}</label>
+                    </div>
+                    <div class="row border">
+                        <label for="category" class="form-label">Category: {{d["category"]}}</label>
+                    </div>
+                    <div class="row border">
+                        <label for="niche" class="form-label">Niche: {{d["niche"]}}</label>
+                    </div>
+                    <a class="btn btn-primary" href="#" role="button" id="rcorner">Edit Profile</a>
+            </div>
+        </div>
+
+        <div class="container" id="find">
+            {{find}}
+        </div>
+        <div class="container" id="campaigns">
+
+        </div>
+        <div class="container" id="status">
+
+        </div>
+
+    </body>
+
+    <script>
+        
+    </script>
+</html>
+
+
+
+<!--document.addEventListener("DOMContentLoaded", function() {
+    const links = document.querySelectorAll("nav ul li a");
+    const sections = document.querySelectorAll(".container");
+
+    function showSection(sectionId) {
+        sections.forEach(section => {
+            if (section.id === sectionId) {
+                section.classList.add("active");
+            } else {
+                section.classList.remove("active");
+            }
+        });
+    }
+
+    links.forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            const sectionId = this.getAttribute("data-section");
+            showSection(sectionId);
+        });
+    });
+
+    // Show the 'about' section by default
+showSection("profile");
+
+});-->
+
+<!--var f = document.getElementById("find");
+        f.style.display="none"
+        var c = document.getElementById("campaigns");
+        c.style.display="none"
+        var s = document.getElementById("status");
+        s.style.display="none" 
+
+        function showprofile(){
+            var all = document.getElementsByClassName("container");
+            for(var i=0; i< all.length;i++){
+                all[i].classList.remove("show");
+                all[i].classList.add("hide");
+            }
+            if (all[0]) {
+                all[0].classList.add("show");
+                all[0].classList.remove("hide");
+            }
+        }
+
+        function showfind(){
+            var all = document.getElementsByClassName("container");
+            for(var i=0; i< all.length;i++){
+                all[i].classList.remove("show");
+                all[i].classList.add("hide");
+            }
+            if (all[1]) {
+                all[1].classList.add("show");
+                all[1].classList.remove("hide");
+            }
+        } 
+-->

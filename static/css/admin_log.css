@@ -8,11 +8,15 @@ h1{
 }
 .container{ 
     width: 500px;
-    border: 15px solid rgb(90, 138, 229);
-    padding: 50px;
     margin: auto;
-    position: relative;
     top: 170px;
+    border: 2px solid rgba(90, 138, 229, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px; 
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative;
 }
 
 .button{

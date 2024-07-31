@@ -1,0 +1,112 @@
+h3{
+    text-align: center;
+    color: blue;
+}
+h2{
+    text-align: center;
+    color: blue;
+}
+
+body{
+    background-image: url("{{ url_for('static', filename='images/influencer_bg.webp') }}");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+header {
+    width: 100%;
+    padding: 20px;
+    background-color: aqua;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+nav {
+    margin-right: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+h2{
+    text-align: center;
+    color: rgb(113, 126, 211);
+    padding: 25px;
+}
+nav ul li a {
+    color: #ec3a3a;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #a5d6a7;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    border: 2px solid rgba(90, 138, 229, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px; 
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative;
+    display: flex;; 
+    align-items: center;
+}
+.container.active {
+    display: unset;
+}
+.details {
+    width: 90%;
+    height: 400px;
+    max-width: 900px;
+    border: 2px solid rgba(201, 207, 219, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px; 
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative; 
+    align-items: center;
+}
+
+.logo {
+    flex: 0 0 25%; 
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+}
+
+.logo img {
+    width: 100%; 
+    max-width: none; 
+}
+
+.row{
+    margin-bottom: 20px;
+}
+
+.form-label{
+    font-size: large;
+}
+#rcorner{
+    border-radius: 25px;
+    padding: 20px; 
+    width: 150px;
+    height: 65px;
+    border-color: #ddafaf;
+}
