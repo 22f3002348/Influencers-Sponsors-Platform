@@ -24,6 +24,10 @@ def sponsor_dashboard():
     }
     return render_template("sponsor_dashboard.html",d= data)  
 
+@app.route("/admin_dashboard",methods=["GET","POST"])
+def admin_dashboard():
+    return render_template("admin_dashboard.html")  
+
 '''@app.route("/profile_influencer",methods=["GET","POST"])
 def profile_influencer():
     return render_template("influencer_dashboard.html",name="Hariharan")

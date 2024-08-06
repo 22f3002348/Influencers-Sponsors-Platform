@@ -22,9 +22,9 @@
                     <li><a href="#" id="logout">Logout</a></li>
                 </ul>
             </nav>
-        </header>
-        <h2>Profile</h2>    
+        </header>    
         <div class="container" id="profile">
+            <!-- <h2 class="c-top">Profile</h2>-->
             <div class="logo">
                 <img src="{{ url_for('static', filename='images/HARI2.jpg') }}" alt="profile pic">
             </div>
@@ -49,10 +49,45 @@
         </div>
 
         <div class="container" id="find">
-            {{find}}
+            <!-- <h2 class="c-top">Find</h2> -->
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Search campaigns..."><br>
+            </div>
+            <div class="campaigns">
+                <div class="campaign">
+                    <h5>Campaign 1</h5>
+                    <p>Details about Campaign 1...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Request</a>
+                </div>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Details about Campaign 2...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Request</a>
+                </div>
+                <!-- Add more campaign items as needed -->
+            </div>
         </div>
         <div class="container" id="campaigns">
-
+            <div class="campaigns">
+                <h2>New Active Campaigns</h2>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Progress: 80%</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                </div>   
+            </div>
+            <div class="campaigns">
+                <h2>New Requests</h2>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Details about Campaign 2...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Accept</a>
+                    <a class="btn btn-danger" href="#" role="button" id="rcorner">Reject</a>
+                </div>
+            </div>
         </div>
         <div class="container" id="status">
 

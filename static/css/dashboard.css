@@ -6,11 +6,14 @@ h2{
     text-align: center;
     color: blue;
 }
-
+.c-top{
+    margin-top: auto;
+}
 body{
     background-image: url("{{ url_for('static', filename='images/influencer_bg.webp') }}");
     background-size: cover;
     background-repeat: no-repeat;
+    
 }
 header {
     width: 100%;
@@ -66,6 +69,7 @@ nav ul li a:hover {
     position: relative;
     display: flex;; 
     align-items: center;
+    height: auto;
 }
 .container.active {
     display: unset;
@@ -103,10 +107,70 @@ nav ul li a:hover {
 .form-label{
     font-size: large;
 }
-#rcorner{
+#New, #Cancel,#Cancel2, #showcampaign,#findinfluencer, #rcorner{
     border-radius: 25px;
     padding: 20px; 
-    width: 150px;
+    width: 170px;
     height: 65px;
     border-color: #ddafaf;
+}
+
+#find .search-box {
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.campaigns {
+    width: 90%;
+    height: auto;
+    max-width: 900px;
+    border: 2px solid rgba(201, 207, 219, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 30px; 
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative; 
+    align-items: center;
+    flex-direction: column;
+    
+
+}
+
+.campaign {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+.search-box {
+    margin-right: 10px 0;
+    right: 20px;
+    position: relative; 
+    align-items: center;
+    flex-direction: column;
+}
+
+#newcampaign, #showexistingcampaign{
+    display: none;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+
+}
+
+.container2 {
+    width: 90%;
+    max-width: 1400px;
+    border: 2px solid rgba(90, 138, 229, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px; 
+    margin: 10px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    position: relative;
+    display: flex;; 
+    align-items: center;
+    height: auto;
+    flex-direction: column;
 }

@@ -44,16 +44,115 @@
                     <div class="row border">
                         <label for="niche" class="form-label">City: {{d["city"]}}</label>
                     </div>
-                    <a class="btn btn-primary" href="#" role="button" id="rcorner">Edit Profile</a>
+                    <a class="btn btn-primary" role="button" id="rcorner">Edit Profile</a>
+            </div>
+        </div>
+        <div class="container" id="campaigns">
+            <div class="campaigns">
+                <h2>Active Campaigns</h2>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Progress: 80%</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                </div>   
+            </div>
+            <div class="campaigns">
+                <h2>New Requests</h2>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Details about Campaign 2...</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" role="button" id="rcorner">Accept</a>
+                    <a class="btn btn-danger" role="button" id="rcorner">Reject</a>
+                </div>
             </div>
         </div>
 
+        <div class="container">
+            <a class="btn btn-dark" role="button" id="New">Add Campaign</a>
+            <div class="campaigns" id="newcampaign">
+                <form class="row g-3">
+                    <div class="col-md-12">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" class="form-control" id="name" required>
+                    </div>
+                    <div class="col-md-12"> 
+                      <label for="description" class="form-label">Description</label>
+                      <input type="text" class="form-control" id="description" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="startdate" class="form-label">Start Date</label>
+                      <input type="text" class="form-control" id="startdate" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="enddate" class="form-label">End Date</label>
+                        <input type="text" class="form-control" id="enddate" required>
+                    </div>
+                    <div class="col-md-12"> 
+                        <label for="budget" class="form-label">Budget (in $)</label>
+                        <input type="text" class="form-control" id="budget" required>
+                    </div>
+                    <label for="visibility" class="form-label">Visibility</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Public
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Private
+                        </label>
+                    </div>
+                    <div class="col-md-12"> 
+                        <label for="goals" class="form-label">Goals</label>
+                        <input type="text" class="form-control" id="goals" required>
+                    </div>
+                    <a class="btn btn-primary" role="button" id="rcorner">Add</a>
+                    <a class="btn btn-danger" role="button" id="Cancel">Cancel</a>
+                </form>
+            </div>
+        </div>
+        <div class="container2">
+            <h2>You Campaigns</h2>
+            <div class="campaigns">    
+                <h5>Campaign 1</h5>
+                <p>Details about Campaign 1...</p>
+                <!--<a class="btn btn-warning" role="button" id="showcampaign">View</a>-->
+                <a class="btn btn-info" role="button" id="showcampaign">View</a>
+            </div>
+            <div class="campaigns" id="showexistingcampaign">
+                <h5>Campaign 1</h5>
+                <p>Details about Campaign 1...</p>
+                <label for="category" class="form-label">Influencer: {{d["name"]}}</label>
+                <a class="btn btn-primary" href="#find" role="button" id="findinfluencer">Find</a><br>
+                <a class="btn btn-success" role="button" id="rcorner">Ad-Request</a>
+                <a class="btn btn-danger" role="button" id="Cancel2">Cancel</a>
+            </div>    
+        </div>
         <div class="container" id="find">
-            {{find}}
+            <!-- <h2 class="c-top">Find</h2> -->
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Search Influencer..."><br>
+            </div>
+            <div class="campaigns">
+                <div class="campaign">
+                    <h5>Influencer 1</h5>
+                    <p>Details about Influencer 1...</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" role="button" id="rcorner">Request</a>
+                </div>
+                <div class="campaign">
+                    <h5>Influencer 2</h5>
+                    <p>Details about Influencer 2...</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" role="button" id="rcorner">Request</a>
+                </div>
+                <!-- Add more campaign items as needed -->
+            </div>
         </div>
-        <div class="container" id="campaigns">
-
-        </div>
+        
         <div class="container" id="status">
 
         </div>
@@ -61,7 +160,25 @@
     </body>
 
     <script>
-        
+        document.getElementById("New").addEventListener("click",function(){
+            const newcampaign = document.getElementById("newcampaign");
+            newcampaign.style.display = "block";
+        })
+
+        document.getElementById("Cancel").addEventListener("click",function(){
+            const newcampaign = document.getElementById("newcampaign");
+            newcampaign.style.display = "none";
+        })
+
+        document.getElementById("showcampaign").addEventListener("click",function(){
+            const newcampaign = document.getElementById("showexistingcampaign");
+            newcampaign.style.display = "block";
+        })
+
+        document.getElementById("Cancel2").addEventListener("click",function(){
+            const newcampaign = document.getElementById("showexistingcampaign");
+            newcampaign.style.display = "none";
+        })
     </script>
 </html>
 

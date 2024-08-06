@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            Admin Dashboard
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}"/>   
+    </head>
+    <body>
+        <header>
+            <div class="Pic">
+                <h3>Welcome Admin!</h3>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#info" id="Info">Info</a></li>
+                    <li><a href="#find" id="Find">Find</a></li>
+                    <li><a href="#status" id="Status">Status</a></li>
+                    <li><a href="#" id="logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>    
+        
+        <div class="container2" id="info">
+            <div class="campaigns">
+                <h2>New Active Campaigns</h2>
+                <div class="campaign">
+                    <h5>Campaign 2</h5>
+                    <p>Progress: 80%</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                </div>   
+            </div>
+            <div class="campaigns">
+                <h2>Flagged Users/Campaigns</h2>
+                <div class="campaigns">
+                    <h5>Campaign 2</h5>
+                    <p>Company</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-danger" href="#" role="button" id="rcorner">Remove</a>
+                </div>
+                <div class="campaigns">
+                    <h5>Influencer 1</h5>
+                    <p>Details about Influencer 1...</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                    <a class="btn btn-danger" role="button" id="rcorner">Remove</a>
+                </div>
+                <div class="campaigns">
+                    <h5>Sponsor 1</h5>
+                    <p>Details about Sponsor 1...</p>
+                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
+                    <a class="btn btn-danger" role="button" id="rcorner">Remove</a>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="find">
+            <!-- <h2 class="c-top">Find</h2> -->
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Search..."><br>
+            </div>
+            <div class="campaigns">
+                <div class="campaign">
+                    <h5>Campaign 1</h5>
+                    <p>Details about Campaign 1...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
+                </div>
+                <div class="campaign">
+                    <h5>Influencer 1</h5>
+                    <p>Details about Influencer 1...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
+                </div>
+                <div class="campaign">
+                    <h5>Sponsor 1</h5>
+                    <p>Details about Sponsor 1...</p>
+                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
+                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
+                </div>
+                <!-- Add more campaign items as needed -->
+            </div>
+        </div>
+        
+        <div class="container" id="status">
+
+        </div>
+
+    </body>
+
+    <script>
+        
+    </script>
+</html>
