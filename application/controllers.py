@@ -1,6 +1,29 @@
+import os
 from flask import Flask, render_template, request
+from application.models import Influencers
+from flask import current_app as app
 
-app = Flask(__name__)
+
+
+@app.route("/influencer_details", methods=["GET","POST"])
+def influencer_details():
+    fname = request.form.get("fname")
+    lname = request.form.get("fname")
+    city = request.form.get("city")
+    uname = request.form.get("username")
+    category = request.form.get("category")
+    niche = request.form.get("niche")
+    email = request.form.get("mail")
+    password = request.form.get("password")
+
+    u = Influencers.query.filter(Influencers.username == uname)
+    print("User:........",u)
+    return render_template("influencer_login.html")
+
+@app.route("/influencer_register",methods=["GET","POST"])
+def influencer_register():
+    return render_template("influencer_register.html")
+
 
 @app.route("/influencer_dashboard",methods=["GET","POST"])
 def influencer_dashboard():
@@ -36,7 +59,3 @@ def profile_influencer():
 def find_influencer():
     return render_template("influencer_dashboard.html",find="Hariharan")'''
 
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run()
