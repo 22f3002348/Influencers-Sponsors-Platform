@@ -11,7 +11,7 @@
     <body>
         <header>
             <div class="Pic">
-                <h3>Welcome Influencer!</h3>
+                <h3>Welcome {{d.username}}!</h3>
             </div>
             <nav>
                 <ul>
@@ -19,7 +19,7 @@
                     <li><a href="#find" id="Find">Find</a></li>
                     <li><a href="#campaigns" id="Campaigns">Campaigns</a></li>
                     <li><a href="#status" id="Status">Status</a></li>
-                    <li><a href="#" id="logout">Logout</a></li>
+                    <li><a href="/users" id="logout">Logout</a></li>
                 </ul>
             </nav>
         </header>    
@@ -30,19 +30,19 @@
             </div>
             <div class = "details">
                     <div class="row border">
-                        <label for="name" class="form-label">Name: {{d["name"]}}</label>
+                        <label for="name" class="form-label">Name: {{d.fname}} {{d.lname}}</label>
                     </div>
                     <div class="row border">
-                        <label for="username" class="form-label">Username: {{d["username"]}}</label>
+                        <label for="username" class="form-label">Username: {{d.username}}</label>
                     </div>
                     <div class="row border">
-                        <label for="email" class="form-label">Email: {{d["email"]}}</label>
+                        <label for="email" class="form-label">Email: {{d.email}}</label>
                     </div>
                     <div class="row border">
-                        <label for="category" class="form-label">Category: {{d["category"]}}</label>
+                        <label for="category" class="form-label">Category: {{d.category}}</label>
                     </div>
                     <div class="row border">
-                        <label for="niche" class="form-label">Niche: {{d["niche"]}}</label>
+                        <label for="niche" class="form-label">Niche: {{d.niche}}</label>
                     </div>
                     <a class="btn btn-primary" href="#" role="button" id="rcorner">Edit Profile</a>
             </div>

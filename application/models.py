@@ -2,7 +2,7 @@ from .database import db
 
 class Campaigns(db.Model):
     __tablename__= 'campaigns'
-    campaign_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
     name = db.Column(db.String, nullable = False)
     description = db.Column(db.String, nullable = False)
     start_date = db.Column(db.String, nullable = False)
@@ -10,10 +10,11 @@ class Campaigns(db.Model):
     budget = db.Column(db.Float, nullable = False)
     visibility = db.Column(db.String, nullable = False)
     goals = db.Column(db.String, nullable = False)
+    sponsor_id = db.Column(db.String, nullable = False)
 
 class Influencers(db.Model):
     __tablename__= 'influencer'
-    influencer_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
     fname = db.Column(db.String, nullable = False)
     lname = db.Column(db.String, nullable = False)
     city = db.Column(db.String, nullable = False)
@@ -25,7 +26,7 @@ class Influencers(db.Model):
     
 class Sponsors(db.Model):
     __tablename__= 'sponsor'
-    sponsor_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
     company = db.Column(db.String, nullable = False)
     city = db.Column(db.String, nullable = False)
     industry = db.Column(db.String, nullable = False)
@@ -36,7 +37,7 @@ class Sponsors(db.Model):
     
 class Admin(db.Model):
     __tablename__ = 'admin'
-    admin_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
     username = db.Column(db.String, nullable = False, unique = True)
     password = db.Column(db.String, nullable = False)
 

@@ -5,14 +5,14 @@
         <title>
             SponsrConnect
         </title>
-        <link rel="stylesheet" type="text/css" href="D:\Github\Influencers-Sponsors-Platform\static\css\start.css"/>    
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/start.css') }}"/>    
     </head>
     <body>
         <div class="container" >
             <h1>SPONSRCONNECT</h1>
             <h3>Who are you?</h3>
-            <a href="admin_login.html" class="button" id="rcorner">Admin</a>
-            <a href="users.html" class="button" id="rcorner">User</a>
+            <a href="/admin_login" class="button" id="rcorner">Admin</a>
+            <a href="/users" class="button" id="rcorner">User</a>
         </div>
     </body>
 </html>

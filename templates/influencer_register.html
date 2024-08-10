@@ -9,9 +9,18 @@
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_log.css') }}"/>   
     </head>
     <body>
-          <div class="container" >
+          <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  <div class="alert alert-warning" id="alert">
+                        {% for category, message in messages %}
+                           <p>{{ message }}</p>
+                        {% endfor %}
+                  </div>
+                {% endif %}
+              {% endwith %}
             <h1>Influencer</h1>
-            <form class="row g-3" action="/influencer_details" method="post">
+            <form class="row g-3" action="{{ url_for('influencer_details') }}" method="post">
                 <div class="col-md-6">
                   <label for="firstname" class="form-label">First name</label>
                   <input type="text" class="form-control" name="fname" id="firstname" required>
@@ -59,6 +68,18 @@
                   <button class="btn btn-primary" type="submit">Submit</button>
                 </div>
             </div>
+            
             </form>
+        
+            
     </body>
+
+    <script>
+      setTimeout(function() {
+            var a = document.getElementById("alert");
+            if (a) {
+                a.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 </html>

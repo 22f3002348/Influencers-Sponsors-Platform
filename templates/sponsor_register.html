@@ -10,38 +10,47 @@
     </head>
     <body>
           <div class="container" >
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  <div class="alert alert-warning" id="alert">
+                        {% for category, message in messages %}
+                           <p>{{ message }}</p>
+                        {% endfor %}
+                  </div>
+                {% endif %}
+              {% endwith %}
             <h1>Sponsor</h1>
-            <form class="row g-3">
+            <form class="row g-3" action="{{ url_for('sponsor_details') }}" method="post">
                 <div class="col-md-12">
                   <label for="company" class="form-label">Company name</label>
-                  <input type="text" class="form-control" id="company" required>
+                  <input type="text" class="form-control" name="company" id="company" required>
                 </div>
                 <div class="col-md-12">
                   <label for="city" class="form-label">City</label>
-                  <input type="text" class="form-control" id="city" required>
+                  <input type="text" class="form-control" name="city" id="city" required>
                 </div>
                 <div class="col-md-6">
                     <label for="industry" class="form-label">Industry</label>
-                    <input type="text" class="form-control" id="industry" required>
+                    <input type="text" class="form-control" name="industry" id="industry" required>
                 </div>
                 <div class="col-md-6">
                     <label for="budget" class="form-label">Budget</label>
-                    <input type="text" class="form-control" id="budget" required>
+                    <input type="text" class="form-control" name="budget" id="budget" required>
                 </div>
                 <div class="col-md-12">
                     <label for="username" class="form-label">Username</label>
                     <div class="input-group">
                       <span class="input-group-text" id="inputGroup">@</span>
-                      <input type="text" class="form-control" id="username" required>
+                      <input type="text" class="form-control" name="username" id="username" required>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <label for="mail" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="mail" required>
+                    <input type="email" class="form-control" name="email" id="mail" required>
                 </div>
                 <div class="passwordbox">
                     <label for="inputpassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="enterpassword" required>
+                    <input type="password" class="form-control" name="password" id="enterpassword" required>
                 </div><br>
                 <div class="col-12">
                   <div class="form-check">
@@ -57,4 +66,12 @@
             </div>
             </form>
     </body>
+    <script>
+      setTimeout(function() {
+            var a = document.getElementById("alert");
+            if (a) {
+                a.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 </html>

@@ -121,7 +121,7 @@ nav ul li a:hover {
     max-width: 400px;
 }
 
-.campaigns {
+.showcampaigns, .showexistingcampaigns, .campaigns {
     width: 90%;
     height: auto;
     max-width: 900px;
@@ -153,11 +153,7 @@ nav ul li a:hover {
     flex-direction: column;
 }
 
-#newcampaign, #showexistingcampaign{
-    display: none;
-    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
 
-}
 
 .container2 {
     width: 90%;

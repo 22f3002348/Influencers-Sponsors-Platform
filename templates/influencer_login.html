@@ -6,25 +6,25 @@
             Influencer Login
         </title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css" href="D:\Github\Influencers-Sponsors-Platform\static\css\user_log.css"/>   
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_log.css') }}"/>   
     </head>
     <body>
           <div class="container" >
             <h1>Influencer</h1>
-          <form>
+          <form action="/influencer_login" method="post">
             <div class="emailbox">
               <label for="username" class="form-label">Username</label>
-              <input type="email" class="form-control" id="username" aria-describedby="inputmail" required>
+              <input type="text" class="form-control" id="username" name="username" aria-describedby="inputmail" required>
             </div><br>
             <div class="passwordbox">
               <label for="inputpassword" class="form-label">Password</label>
-              <input type="password" class="form-control" id="enterpassword" required>
+              <input type="password" class="form-control" name="password" id="enterpassword" required>
             </div><br>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
             <h5>No Account? Register as Influencer</h5>
             <div class="center">
-              <a class="btn btn-success" href="influencer_register.html" role="button" id="rcorner">Register!</a>
+              <a class="btn btn-success" href="/influencer_register" role="button" id="rcorner">Register!</a>
             </div>
           </div>
     </body>

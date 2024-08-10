@@ -11,7 +11,7 @@
     <body>
         <header>
             <div class="Pic">
-                <h3>Welcome Sponsor!</h3>
+                <h3>Welcome {{d.company}}!</h3>
             </div>
             <nav>
                 <ul>
@@ -19,7 +19,7 @@
                     <li><a href="#find" id="Find">Find</a></li>
                     <li><a href="#campaigns" id="Campaigns">Campaigns</a></li>
                     <li><a href="#status" id="Status">Status</a></li>
-                    <li><a href="#" id="logout">Logout</a></li>
+                    <li><a href="/users" id="logout">Logout</a></li>
                 </ul>
             </nav>
         </header>
@@ -30,19 +30,16 @@
             </div>
             <div class = "details">
                     <div class="row border">
-                        <label for="name" class="form-label">Name: {{d["name"]}}</label>
+                        <label for="category" class="form-label">Company: {{d["company"]}}</label>
+                    </div>
+                    <div class="row border">
+                        <label for="niche" class="form-label">City: {{d["city"]}}</label>
                     </div>
                     <div class="row border">
                         <label for="username" class="form-label">Username: {{d["username"]}}</label>
                     </div>
                     <div class="row border">
                         <label for="email" class="form-label">Email: {{d["email"]}}</label>
-                    </div>
-                    <div class="row border">
-                        <label for="category" class="form-label">Company: {{d["company"]}}</label>
-                    </div>
-                    <div class="row border">
-                        <label for="niche" class="form-label">City: {{d["city"]}}</label>
                     </div>
                     <a class="btn btn-primary" role="button" id="rcorner">Edit Profile</a>
             </div>
@@ -71,66 +68,72 @@
         <div class="container">
             <a class="btn btn-dark" role="button" id="New">Add Campaign</a>
             <div class="campaigns" id="newcampaign">
-                <form class="row g-3">
+                <form class="row g-3" method="post" action="/add_campaigns/{{d.id}}">
                     <div class="col-md-12">
                       <label for="name" class="form-label">Name</label>
-                      <input type="text" class="form-control" id="name" required>
+                      <input type="text" class="form-control" name="name" id="name" required>
                     </div>
                     <div class="col-md-12"> 
                       <label for="description" class="form-label">Description</label>
-                      <input type="text" class="form-control" id="description" required>
+                      <input type="text" class="form-control" name="description" id="description" required>
                     </div>
                     <div class="col-md-6">
                       <label for="startdate" class="form-label">Start Date</label>
-                      <input type="text" class="form-control" id="startdate" required>
+                      <input type="text" class="form-control" name="startdate" id="startdate" required>
                     </div>
                     <div class="col-md-6">
                         <label for="enddate" class="form-label">End Date</label>
-                        <input type="text" class="form-control" id="enddate" required>
+                        <input type="text" class="form-control" name="enddate" id="enddate" required>
                     </div>
                     <div class="col-md-12"> 
                         <label for="budget" class="form-label">Budget (in $)</label>
-                        <input type="text" class="form-control" id="budget" required>
+                        <input type="text" class="form-control" name="budget" id="budget" required>
                     </div>
                     <label for="visibility" class="form-label">Visibility</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="radio1" id="flexRadioDefault1">
+                        <label class="form-check-label" for="radio1">
                           Public
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="radio1" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="radio1">
                           Private
                         </label>
                     </div>
                     <div class="col-md-12"> 
                         <label for="goals" class="form-label">Goals</label>
-                        <input type="text" class="form-control" id="goals" required>
+                        <input type="text" class="form-control" name="goals" id="goals" required>
                     </div>
-                    <a class="btn btn-primary" role="button" id="rcorner">Add</a>
+                    <button type="submit" class="btn btn-primary" id="rcorner">Add</button>
                     <a class="btn btn-danger" role="button" id="Cancel">Cancel</a>
                 </form>
             </div>
         </div>
         <div class="container2">
-            <h2>You Campaigns</h2>
-            <div class="campaigns">    
-                <h5>Campaign 1</h5>
-                <p>Details about Campaign 1...</p>
-                <!--<a class="btn btn-warning" role="button" id="showcampaign">View</a>-->
-                <a class="btn btn-info" role="button" id="showcampaign">View</a>
-            </div>
-            <div class="campaigns" id="showexistingcampaign">
-                <h5>Campaign 1</h5>
-                <p>Details about Campaign 1...</p>
-                <label for="category" class="form-label">Influencer: {{d["name"]}}</label>
-                <a class="btn btn-primary" href="#find" role="button" id="findinfluencer">Find</a><br>
-                <a class="btn btn-success" role="button" id="rcorner">Ad-Request</a>
-                <a class="btn btn-danger" role="button" id="Cancel2">Cancel</a>
-            </div>    
-        </div>
+            <h2>Your Campaigns</h2>
+            {% if c %}
+                {% for campaign in c %}
+                    <div class="showcampaigns">
+                        <h5>{{ campaign.name }}</h5>
+                        <p>{{ campaign.description }}</p>
+                        <a class="btn btn-info view-campaign" role="button">View</a>
+                        <div class="showexistingcampaigns" style="display: none;">
+                            <p>Start date: {{ campaign.start_date }}</p>
+                            <p>End date: {{ campaign.end_date }}</p>
+                            <p>Budget: {{ campaign.budget }}</p>
+                            <p>Visibility: {{ campaign.visibility }}</p>
+                            <p>Goals: {{ campaign.goals }}</p>
+                            <label for="category" class="form-label">Influencer: {{ d["name"] }}</label>
+                            <a class="btn btn-primary" href="#find" role="button" id="findinfluencer">Find</a><br>
+                            <a class="btn btn-success" role="button" id="rcorner">Ad-Request</a>
+                            <a class="btn btn-danger" role="button" id="Cancel2">Cancel</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>        
         <div class="container" id="find">
             <!-- <h2 class="c-top">Find</h2> -->
             <div class="search-box">
@@ -170,13 +173,19 @@
             newcampaign.style.display = "none";
         })
 
-        document.getElementById("showcampaign").addEventListener("click",function(){
-            const newcampaign = document.getElementById("showexistingcampaign");
-            newcampaign.style.display = "block";
-        })
+        document.querySelectorAll(".showcampaigns").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const campaign = button.closest(".showcampaigns");
+                const campaigndetails = campaign.querySelector(".showexistingcampaigns");
+                if (campaigndetails.style.display === "none" || campaigndetails.style.display === "") {
+                    campaigndetails.style.display = "block";
+                } 
+            });
+        });
+
 
         document.getElementById("Cancel2").addEventListener("click",function(){
-            const newcampaign = document.getElementById("showexistingcampaign");
+            const newcampaign = document.getElementById("campaign-details");
             newcampaign.style.display = "none";
         })
     </script>
