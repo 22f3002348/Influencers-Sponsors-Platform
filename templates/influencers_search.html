@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+           Top results of Influencers
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}"/>   
+    </head>
+    <body>
+        <div class="container2" id="find">
+            <h2 class="c-top">Results</h2> 
+            {% if searches %}
+                {% for s in searches %}
+                <div class="campaigns">
+                    <div class="campaigns">
+                        <h5>{{ s.fname }} {{s.lname}}</h5>
+                        <p>Influencer ID: {{s.id}}</p>
+                        <p>City: {{s.city}}</p>
+                        <p>Category: {{s.category}}</p>
+                        <p>Niche: {{s.niche}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            <a class="btn btn-success" role="button" href="/sponsor_dashboard/{{u}}" id="rcorner">Back</a>
+        </div>
+    </body>
+</html>

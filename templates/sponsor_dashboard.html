@@ -24,10 +24,7 @@
             </nav>
         </header>
         <h2>Profile</h2>    
-        <div class="container" id="profile">
-            <div class="logo">
-                <img src="{{ url_for('static', filename='images/HARI2.jpg') }}" alt="profile pic">
-            </div>
+        <div class="container2" id="profile">
             <div class = "details">
                     <div class="row border">
                         <label for="category" class="form-label">Company: {{d["company"]}}</label>
@@ -41,28 +38,93 @@
                     <div class="row border">
                         <label for="email" class="form-label">Email: {{d["email"]}}</label>
                     </div>
-                    <a class="btn btn-primary" role="button" id="rcorner">Edit Profile</a>
+                    <a class="btn btn-primary" role="button" id="edit-profile">Edit Profile</a>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  <div class="alert alert-warning" id="alert">
+                        {% for category, message in messages %}
+                           <p>{{ message }}</p>
+                        {% endfor %}
+                  </div>
+                {% endif %}
+              {% endwith %}
+            <div class = "showdetails" id="editprofile">
+                <form class="row g-3" method="post" action="/edit_sponsor_details/{{d.id}}">
+                    <div class="row border">
+                        <label for="category" class="form-label">Company</label>
+                        <input type="text" class="form-control" value="{{d.company}}" name="company" id="company" required>
+                    </div>
+                    <div class="row border">
+                        <label for="niche" class="form-label">City:</label>
+                        <input type="text" class="form-control" value="{{d.city}}" name="city" id="city" required>
+                    </div>
+                    <div class="row border">
+                        <label for="username" class="form-label">Industry: </label>
+                        <input type="text" class="form-control" value="{{d.industry}}" name="industry" id="industry" required>
+                    </div>
+                    <div class="row border">
+                        <label for="username" class="form-label">Budget: </label>
+                        <input type="text" class="form-control" value="{{d.budget}}" name="budget" id="budget" required>
+                    </div>
+                    <div class="row border">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" value="{{d.username}}" name="username" id="username" required>
+                    </div>
+                    <div class="row border">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="text" class="form-control" value="{{d.email}}" name="email" id="email" required>
+                    </div>
+                    <div class="passwordbox">
+                        <label for="inputpassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" value="{{d.password}}" name="password" id="enterpassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="rcorner">Save</button>
+                    <a class="btn btn-danger" role="button" id="cancelprofile">Cancel</a>
+                </form>
             </div>
         </div>
-        <div class="container" id="campaigns">
-            <div class="campaigns">
-                <h2>Active Campaigns</h2>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Progress: 80%</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                </div>   
-            </div>
-            <div class="campaigns">
+        <div class="container2" id="campaigns">
+            <h2>Active Campaigns</h2>
+                {% if aad %}
+                    {% for a in aad %}
+                        <div class="showrequests">
+                            <h5>{{ a.campaigns.name }}</h5>
+                            <p>{{a.campaigns.description }}</p>
+                            <p>Influencer ID: {{a.influencer_id }}</p>
+                            <p>Influencer Name: {{a.influencer.fname}} {{a.influencer.lname}}</p>
+                            <p>Progress: {{a.campaigns.progress}} %</p>
+                        </div>   
+                    {% endfor %}
+                {% endif %}
+        </div>
+            <div class="container2">
                 <h2>New Requests</h2>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Details about Campaign 2...</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" role="button" id="rcorner">Accept</a>
-                    <a class="btn btn-danger" role="button" id="rcorner">Reject</a>
-                </div>
+                {% if rad %}
+                    {% for a in rad %}
+                        {% if a.status == "Pending" %}
+                            <div class="showreceivedrequests">
+                                <h5>{{ a.campaigns.name }}</h5>
+                                <p>{{a.campaigns.description }}</p>
+                                <div class="showexistingreceivedrequests" style="display: none;">
+                                    <p>Start date: {{ a.campaigns.start_date }}</p>
+                                    <p>End date: {{ a.campaigns.end_date }}</p>
+                                    <p>Influencer ID: {{a.influencer_id}}</p>
+                                    <p>Influencer Name: {{a.influencer.fname}} {{a.influencer.lname}}</p>
+                                    <p>Messages: {{ a.messages }}</p>
+                                    <p>Requirements: {{ a.requirements }}</p>
+                                    <p>Requested Payment: {{ a.payment }}</p>
+                                </div>
+                                <a class="btn btn-info view-request" role="button" id="rcorner">View</a>
+                                <a class="btn btn-dark accept-request" href="/sponsor_accept_ad_request/{{a.id}}" role="button" id="Edit">Accept</a>
+                                <a class="btn btn-warning close-request" role="button" id="Cancel">Close</a>
+                                <a class="btn btn-danger reject-request" href="/sponsor_reject_ad_request/{{a.id}}" role="button" id="Cancel">Reject</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            {% endif %}
             </div>
+    
         </div>
 
         <div class="container">
@@ -89,16 +151,20 @@
                         <label for="budget" class="form-label">Budget (in $)</label>
                         <input type="text" class="form-control" name="budget" id="budget" required>
                     </div>
+                    <div class="col-md-12"> 
+                        <label for="budget" class="form-label">Category</label>
+                        <input type="text" class="form-control" name="category" id="category" required>
+                    </div>
                     <label for="visibility" class="form-label">Visibility</label>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radio1" id="flexRadioDefault1">
-                        <label class="form-check-label" for="radio1">
+                        <input class="form-check-input" type="radio" name="visibility" id="public" value="public">
+                        <label class="form-check-label" for="public">
                           Public
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radio1" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="radio1">
+                        <input class="form-check-input" type="radio" name="visibility" id="private" value="private" checked>
+                        <label class="form-check-label" for="private">
                           Private
                         </label>
                     </div>
@@ -118,46 +184,159 @@
                     <div class="showcampaigns">
                         <h5>{{ campaign.name }}</h5>
                         <p>{{ campaign.description }}</p>
-                        <a class="btn btn-info view-campaign" role="button">View</a>
                         <div class="showexistingcampaigns" style="display: none;">
                             <p>Start date: {{ campaign.start_date }}</p>
                             <p>End date: {{ campaign.end_date }}</p>
                             <p>Budget: {{ campaign.budget }}</p>
+                            <p>Category: {{campaign.category}}</p>
                             <p>Visibility: {{ campaign.visibility }}</p>
                             <p>Goals: {{ campaign.goals }}</p>
-                            <label for="category" class="form-label">Influencer: {{ d["name"] }}</label>
-                            <a class="btn btn-primary" href="#find" role="button" id="findinfluencer">Find</a><br>
-                            <a class="btn btn-success" role="button" id="rcorner">Ad-Request</a>
-                            <a class="btn btn-danger" role="button" id="Cancel2">Cancel</a>
+                        
+                            <div class="new_ad_request">
+                                <a class="btn btn-success ad-request" role="button" id="rcorner">Ad-Request</a>
+                                <!--<a class="btn btn-danger cancel-request" role="button" id="Cancel2">Cancel</a>-->
+                                <div class="Ad-Request" style="display: none;">
+                                    <h2>Ad-Request</h2>
+                                    <h5>{{ campaign.name }}</h5>
+                                    <p>{{ campaign.description }}</p>
+                                    <p>Category: {{campaign.category}}</p>
+                                    <p>Start date: {{ campaign.start_date }}</p>
+                                    <p>End date: {{ campaign.end_date }}</p>
+                                    <form class="row g-3" method="post" action="/ad_request/{{campaign.id}}">
+                                        <label for="category" class="form-label">Influencer (Enter the Influencer Id)</label>
+                                        <input type="text" class="form-control" name="influencer_id" id="influencer_id" required>
+                                        <a class="btn btn-danger" href="#find" role="button" id="Cancel">Find</a>
+                                        <label for="messages" class="form-label">Messages</label>
+                                        <input type="text" class="form-control" name="messages" id="messages" required>
+                                        <label for="goals" class="form-label">Requirements</label>
+                                        <input type="text" class="form-control" name="requirements" id="requirements" required>
+                                        <label for="payment" class="form-label">Payment</label>
+                                        <input type="text" class="form-control" name="payment" id="payment" required>
+                                        <!--<label for="status" class="form-label">Status: </label>-->
+                                        <button type="submit" class="btn btn-warning requested" id="rcorner">Request</button>
+                                        <a class="btn btn-danger cancel-request" role="button" id="Cancel">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+
+                            
+
+                        </div>
+                        <a class="btn btn-info view-campaign" role="button" id="rcorner">View</a>
+                        <a class="btn btn-dark edit-campaign" role="button" id="Edit">Edit</a>
+                        <a class="btn btn-warning close-campaign" role="button" id="Cancel">Close</a>
+                        <a class="btn btn-danger delete-campaign" href="/delete_campaigns/{{campaign.id}}" role="button" id="Cancel">Delete</a>
+
+                        <div class="editexistingcampaigns" id="editcampaigns">
+                            <form class="row g-3" method="post" action="/edit_campaigns/{{campaign.id}}">
+                                <div class="col-md-12">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" name="name" id="name" value="{{ campaign.name }}" required>
+                                </div>
+                                <div class="col-md-12"> 
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description" value="{{ campaign.description}}" id="description" required>
+                                </div>
+                                <div class="col-md-6">
+                                <label for="startdate" class="form-label">Start Date</label>
+                                <input type="text" class="form-control" name="startdate" value="{{ campaign.start_date }}" id="startdate" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="enddate" class="form-label">End Date</label>
+                                    <input type="text" class="form-control" name="enddate" value="{{ campaign.end_date }}" id="enddate" required>
+                                </div>
+                                <div class="col-md-12"> 
+                                    <label for="budget" class="form-label">Budget (in $)</label>
+                                    <input type="text" class="form-control" name="budget" value="{{ campaign.budget}}" id="budget" required>
+                                </div>
+                                <div class="col-md-12"> 
+                                    <label for="budget" class="form-label">Category</label>
+                                    <input type="text" class="form-control" value="{{campaign.category}}" name="category" id="category" required>
+                                </div>
+                                <label for="visibility" class="form-label">Visibility</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="visibility" id="public" value="public">
+                                    <label class="form-check-label" for="public">
+                                    Public
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="visibility" id="private" value="private" checked>
+                                    <label class="form-check-label" for="private">
+                                    Private
+                                    </label>
+                                </div>
+                                <div class="col-md-12"> 
+                                    <label for="goals" class="form-label">Goals</label>
+                                    <input type="text" class="form-control" name="goals" value="{{ campaign.goals }}" id="goals" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary" id="rcorner">Save</button>
+                                <a class="btn btn-danger cancel-edit" role="button" id="Cancel">Cancel</a>
+                            </form>
                         </div>
                     </div>
                 {% endfor %}
             {% endif %}
-        </div>        
-        <div class="container" id="find">
-            <!-- <h2 class="c-top">Find</h2> -->
-            <div class="search-box">
-                <input type="text" class="form-control" placeholder="Search Influencer..."><br>
-            </div>
+        </div>  
+        
+        <div class="container2">
+            <h2>Your Ad-Requests</h2>
+            {% if ad %}
+                {% for a in ad %}
+                    <div class="showrequests">
+                        {% if a.status=="Pending" %}
+                            <h5>{{ a.campaigns.name }}</h5>
+                            <p>{{a.campaigns.description }}</p>
+                            <p>Start date: {{ a.campaigns.start_date }}</p>
+                            <p>End date: {{ a.campaigns.end_date }}</p>
+                            <p>Campaign: {{ a.campaign_id }}</p> 
+                            <p>Category: {{a.campaigns.category}}</p>
+                            <p>Influencer: {{ a.influencer_id }}</p>
+                            <p>Status: {{ a.status }}</p>     
+                            <p>Last Modified By: {{ a.last_modified_by }}</p> 
+                            
+                                <a class="btn btn-success edit-request" role="button" id="rcorner">Edit Request</a>
+                                <a class="btn btn-danger delete-request" href="/delete_ad_request/{{a.id}}" role="button" id="Cancel">Delete Request</a>
+                                <div class="Edit-Ad-Request" style="display: none;">
+                                    <h2>Ad-Request</h2>
+                                    
+                                    <form class="row g-3" method="post" action="/edit_ad_request/{{a.id}}">
+                                        <label for="category" class="form-label">Influencer (Enter the Influencer Id)</label>
+                                        <input type="text" class="form-control" name="influencer_id" value="{{ a.influencer_id }}" id="influencer_id" required>
+                                        <a class="btn btn-danger" href="#find" role="button" id="Cancel">Find</a>
+                                        <label for="messages" class="form-label">Messages</label>
+                                        <input type="text" class="form-control" name="messages" value="{{ a.messages }}" id="messages" required>
+                                        <label for="goals" class="form-label">Requirements</label>
+                                        <input type="text" class="form-control" name="requirements" value="{{ a.requirements }}" id="requirements" required>
+                                        <label for="payment" class="form-label">Payment</label>
+                                        <input type="text" class="form-control" name="payment" value="{{ a.payment }}" id="payment" required>
+                                        <!--<label for="status" class="form-label">Status: </label>-->
+                                        <button type="submit" class="btn btn-warning edited" id="rcorner">Save Changes</button>
+                                        <a class="btn btn-danger cancel-request-edit" role="button" id="Cancel">Cancel</a>
+                                    </form>
+                                </div>
+                       
+                        {% else %}
+                            <h5>{{ a.campaigns.name }}</h5>
+                            <p>{{a.campaigns.description }}</p>
+                            <p>Influencer: {{ a.influencer_id }}</p>
+                            <p>Status: {{ a.status }}</p>     
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+            {% endif %}
+        </div>
+        <div class="container2" id="find">
+            <h2 class="c-top">Find</h2> 
             <div class="campaigns">
-                <div class="campaign">
-                    <h5>Influencer 1</h5>
-                    <p>Details about Influencer 1...</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" role="button" id="rcorner">Request</a>
-                </div>
-                <div class="campaign">
-                    <h5>Influencer 2</h5>
-                    <p>Details about Influencer 2...</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" role="button" id="rcorner">Request</a>
-                </div>
-                <!-- Add more campaign items as needed -->
+                <form class="row g-3" method="post" action="/search_influencer/{{d.id}}">
+                    <input type="text" class="form-control"  name="search-influencer" placeholder="Search Influencer by name, category, niche..." required>
+                    <button type="submit" class="btn btn-primary" id="rcorner">Search</button>
+                </form><br>
             </div>
         </div>
-        
         <div class="container" id="status">
-
+            
         </div>
 
     </body>
@@ -171,23 +350,118 @@
         document.getElementById("Cancel").addEventListener("click",function(){
             const newcampaign = document.getElementById("newcampaign");
             newcampaign.style.display = "none";
+        }) 
+        
+        document.getElementById("edit-profile").addEventListener("click",function(){
+            const editp = document.getElementById("editprofile");
+            editp.style.display = "block";
         })
 
-        document.querySelectorAll(".showcampaigns").forEach(function(button) {
+        document.getElementById("cancelprofile").addEventListener("click",function(){
+            const cancelp = document.getElementById("editprofile");
+            cancelp.style.display = "none";
+        })
+        
+        document.querySelectorAll(".edit-campaign").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const editcampaign = button.closest(".showcampaigns");
+                const editdetails = editcampaign.querySelector(".editexistingcampaigns");
+                if (editdetails.style.display === "none" || editdetails.style.display === "") {
+                    editdetails.style.display = "block";
+                }  
+            });
+        });
+
+        document.querySelectorAll(".view-campaign").forEach(function(button) {
             button.addEventListener("click", function() {
                 const campaign = button.closest(".showcampaigns");
                 const campaigndetails = campaign.querySelector(".showexistingcampaigns");
                 if (campaigndetails.style.display === "none" || campaigndetails.style.display === "") {
                     campaigndetails.style.display = "block";
-                } 
+                }  
             });
         });
 
+        document.querySelectorAll(".ad-request").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const request = button.closest(".showexistingcampaigns");
+                const requestdetails = request.querySelector(".Ad-Request");
+                if (requestdetails.style.display === "none" || request.style.display === "") {
+                    requestdetails.style.display = "block";
+                }  
+            });
+        });
 
-        document.getElementById("Cancel2").addEventListener("click",function(){
+        document.querySelectorAll(".edit-request").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const editad = button.closest(".showrequests");
+                const editaddetails = editad.querySelector(".Edit-Ad-Request");
+                if (editaddetails.style.display === "none" || editaddetails.style.display === "") {
+                    editaddetails.style.display = "block";
+                }  
+            });
+        });
+
+        document.querySelectorAll('.cancel-edit').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const canceledit = button.closest('.editexistingcampaigns'); 
+                canceledit.style.display = 'none'; 
+            });
+        });
+
+        document.querySelectorAll('.cancel-request').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const cancelrequest = button.closest('.Ad-Request'); 
+                cancelrequest.style.display = 'none'; 
+            });
+        });
+
+        document.querySelectorAll('.close-campaign').forEach(function(button) {
+            button.addEventListener("click", function() {
+                const closecampaign = button.closest(".showcampaigns");
+                const closecampaigndetails = closecampaign.querySelector(".showexistingcampaigns");
+                closecampaigndetails.style.display ="none";
+            });
+        });
+
+        document.querySelectorAll('.cancel-request-edit').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const cancelrequestedit = button.closest('.Edit-Ad-Request'); 
+                cancelrequestedit.style.display = 'none'; 
+            });
+        });
+
+        document.querySelectorAll(".view-request").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const receivedrequest = button.closest(".showreceivedrequests");
+                const receivedrequestdetails = receivedrequest.querySelector(".showexistingreceivedrequests");
+                if (receivedrequestdetails.style.display === "none" || receivedrequestdetails.style.display === "") {
+                    receivedrequestdetails.style.display = "block";
+                }  
+            });
+        });
+
+        document.querySelectorAll('.close-request').forEach(function(button) {
+            button.addEventListener("click", function() {
+                const closerequest = button.closest(".showreceivedrequests");
+                const closerequestdetails = closerequest.querySelector(".showexistingreceivedrequests");
+                closerequestdetails.style.display ="none";
+            });
+        });
+
+        setTimeout(function() {
+            var a = document.getElementById("alert");
+            if (a) {
+                a.style.display = 'none';
+            }
+        }, 3000);
+        /*document.getElementById("Cancel2").addEventListener("click",function(){
             const newcampaign = document.getElementById("campaign-details");
             newcampaign.style.display = "none";
-        })
+        })*/
     </script>
 </html>
 

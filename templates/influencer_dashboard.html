@@ -11,7 +11,7 @@
     <body>
         <header>
             <div class="Pic">
-                <h3>Welcome {{d.username}}!</h3>
+                <h3>Welcome {{d.fname}} {{d.lname}}!</h3>
             </div>
             <nav>
                 <ul>
@@ -23,11 +23,11 @@
                 </ul>
             </nav>
         </header>    
-        <div class="container" id="profile">
-            <!-- <h2 class="c-top">Profile</h2>-->
-            <div class="logo">
+        <div class="container2" id="profile">
+            <h2 class="c-top">Profile</h2>
+            <!--<div class="logo">
                 <img src="{{ url_for('static', filename='images/HARI2.jpg') }}" alt="profile pic">
-            </div>
+            </div>-->
             <div class = "details">
                     <div class="row border">
                         <label for="name" class="form-label">Name: {{d.fname}} {{d.lname}}</label>
@@ -44,51 +44,142 @@
                     <div class="row border">
                         <label for="niche" class="form-label">Niche: {{d.niche}}</label>
                     </div>
-                    <a class="btn btn-primary" href="#" role="button" id="rcorner">Edit Profile</a>
+                    <a class="btn btn-primary" href="#" role="button" id="edit-profile">Edit Profile</a>
             </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                  <div class="alert alert-warning" id="alert">
+                        {% for category, message in messages %}
+                           <p>{{ message }}</p>
+                        {% endfor %}
+                  </div>
+                {% endif %}
+              {% endwith %}
+            <div class = "showdetails" id="editprofile">
+                <form class="row g-3" method="post" action="/edit_influencer_details/{{d.id}}">
+                    <div class="col-md-6">
+                        <label for="firstname" class="form-label">First name</label>
+                        <input type="text" class="form-control" value="{{d.fname}}" name="fname" id="firstname" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="lastname" class="form-label">Last name</label>
+                        <input type="text" class="form-control" value="{{d.lname}}"  name="lname" id="lastname" required>
+                      </div>
+                      <div class="col-md-12">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" value="{{d.city}}"  name="city" id="city" required>
+                      </div>
+                      <div class="col-md-12">
+                          <label for="username" class="form-label">Username</label>
+                          <div class="input-group">
+                            <span class="input-group-text" id="inputGroup">@</span>
+                            <input type="text" class="form-control" value="{{d.username}}"  name="username" id="username" required>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" value="{{d.category}}"  name="category" id="category" required>
+                      </div>
+                      <div class="col-md-6">
+                        <label for="niche" class="form-label">Niche</label>
+                        <input type="text" class="form-control" value="{{d.niche}}"  name="niche" id="niche" required>
+                      </div>
+                      <div class="col-md-12">
+                          <label for="mail" class="form-label">Email</label>
+                          <input type="email" class="form-control" value="{{d.email}}"  name="email" id="mail" required>
+                      </div>
+                      <div class="passwordbox">
+                          <label for="inputpassword" class="form-label">Password</label>
+                          <input type="password" class="form-control" value="{{d.password}}"  name="password" id="enterpassword" required>
+                      </div>
+                    <button type="submit" class="btn btn-primary" id="rcorner">Save</button>
+                    <a class="btn btn-danger" role="button" id="cancelprofile">Cancel</a>
+                </form>
+            </div>
+
         </div>
 
-        <div class="container" id="find">
-            <!-- <h2 class="c-top">Find</h2> -->
-            <div class="search-box">
-                <input type="text" class="form-control" placeholder="Search campaigns..."><br>
-            </div>
-            <div class="campaigns">
-                <div class="campaign">
-                    <h5>Campaign 1</h5>
-                    <p>Details about Campaign 1...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Request</a>
-                </div>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Details about Campaign 2...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Request</a>
-                </div>
-                <!-- Add more campaign items as needed -->
-            </div>
+        
+        <div class="container2" id="campaigns">
+            <h2>Active Campaigns</h2>
+                {% if aad %}
+                    {% for a in aad %}
+                        <div class="showrequests">
+                            <h5>{{ a.campaigns.name }}</h5>
+                            <p>{{a.campaigns.description }}</p>
+                            <p>Progress: {{a.campaigns.progress}} %</p>
+                        </div>   
+                    {% endfor %}
+                {% endif %}
         </div>
-        <div class="container" id="campaigns">
-            <div class="campaigns">
-                <h2>New Active Campaigns</h2>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Progress: 80%</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                </div>   
-            </div>
-            <div class="campaigns">
-                <h2>New Requests</h2>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Details about Campaign 2...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Accept</a>
-                    <a class="btn btn-danger" href="#" role="button" id="rcorner">Reject</a>
-                </div>
-            </div>
+
+        <div class="container2">
+            <h2>New Requests</h2>
+            {% if ad %}
+                {% for a in ad %}
+                    {% if a.last_modified_by == a.campaigns.sponsor.company %}
+                        <div class="showrequests">
+                            <h5>{{ a.campaigns.name }}</h5>
+                            <p>{{a.campaigns.description }}</p>
+                            <div class="showexistingcampaigns" style="display: none;">
+                                <p>Start date: {{ a.campaigns.start_date }}</p>
+                                <p>End date: {{ a.campaigns.end_date }}</p>
+                                <p>Budget: {{ a.campaigns.budget }}</p>
+                                <p>Category: {{a.campaigns.category}}</p>
+                                <p>Goals: {{ a.campaigns.goals }}</p>
+                                <p>Messages: {{ a.messages }}</p>
+                                <p>Requirements: {{ a.requirements }}</p>
+                                <p>Payment: {{ a.payment }}</p>
+                            
+                                <div class="new_ad_request">
+                                    <a class="btn btn-success ad-request" role="button">Modify and Send-Request</a>
+                                    <!--<a class="btn btn-danger cancel-request" role="button" id="Cancel2">Cancel</a>-->
+                                    <div class="Ad-Request" style="display: none;">
+                                        <h2>Ad-Request</h2>
+                                        <h5>{{ a.campaigns.name }}</h5>
+                                        <p>{{ a.campaigns.description }}</p>
+                                        <p>Category: {{a.campaigns.category}}</p>
+                                        <p>Start date: {{ a.campaigns.start_date }}</p>
+                                        <p>End date: {{ a.campaigns.end_date }}</p>
+                                        <p>Last Modified By: {{ a.last_modified_by }}</p>
+                                        <form class="row g-3" method="post" action="/modified_ad_request/{{a.id}}">
+                                            <label for="messages" class="form-label">Messages</label>
+                                            <input type="text" class="form-control" name="messages" id="messages" required>
+                                            <label for="goals" class="form-label">Requirements</label>
+                                            <input type="text" class="form-control" name="requirements" id="requirements" required>
+                                            <label for="payment" class="form-label">Payment</label>
+                                            <input type="text" class="form-control" name="payment" id="payment" required>
+                                            <!--<label for="status" class="form-label">Status: </label>-->
+                                            <button type="submit" class="btn btn-warning requested" id="rcorner">Request</button>
+                                            <a class="btn btn-danger cancel-request" role="button" id="Cancel">Cancel</a>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                
+
+                            </div>
+                            <a class="btn btn-info view-campaign" role="button" id="rcorner">View</a>
+                            <a class="btn btn-dark edit-campaign" href="/accept_ad_request/{{a.id}}" role="button" id="Edit">Accept</a>
+                            <a class="btn btn-warning close-campaign" role="button" id="Cancel">Close</a>
+                            <a class="btn btn-danger delete-campaign" href="/reject_ad_request/{{a.id}}" role="button" id="Cancel">Reject</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+        {% endif %}
         </div>
+
+        <div class="container2" id="find"> 
+            <h2 class="c-top">Find</h2> 
+            <div class="campaigns">
+                <form class="row g-3" method="post" action="/search_campaign/{{d.id}}">
+                    <input type="text" class="form-control"  name="search-campaign" placeholder="Search Campaign by name, category, Budget..." required>
+                    <button type="submit" class="btn btn-primary" id="rcorner">Search</button>
+                </form><br>
+            </div>
+           
+        </div>
+
         <div class="container" id="status">
 
         </div>
@@ -96,7 +187,58 @@
     </body>
 
     <script>
-        
+        document.getElementById("edit-profile").addEventListener("click",function(){
+            const editp = document.getElementById("editprofile");
+            editp.style.display = "block";
+        })
+
+        document.getElementById("cancelprofile").addEventListener("click",function(){
+            const cancelp = document.getElementById("editprofile");
+            cancelp.style.display = "none";
+        })
+
+        document.querySelectorAll(".view-campaign").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const campaign = button.closest(".showrequests");
+                const campaigndetails = campaign.querySelector(".showexistingcampaigns");
+                if (campaigndetails.style.display === "none" || campaigndetails.style.display === "") {
+                    campaigndetails.style.display = "block";
+                }  
+            });
+        });
+
+        document.querySelectorAll(".ad-request").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const request = button.closest(".showexistingcampaigns");
+                const requestdetails = request.querySelector(".Ad-Request");
+                if (requestdetails.style.display === "none" || request.style.display === "") {
+                    requestdetails.style.display = "block";
+                }  
+            });
+        });
+
+        document.querySelectorAll('.close-campaign').forEach(function(button) {
+            button.addEventListener("click", function() {
+                const closecampaign = button.closest(".showrequests");
+                const closecampaigndetails = closecampaign.querySelector(".showexistingcampaigns");
+                closecampaigndetails.style.display ="none";
+            });
+        });
+
+        document.querySelectorAll('.cancel-request').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const cancelrequestedit = button.closest('.Ad-Request'); 
+                cancelrequestedit.style.display = 'none'; 
+            });
+        });
+
+        setTimeout(function() {
+            var a = document.getElementById("alert");
+            if (a) {
+                a.style.display = 'none';
+            }
+        }, 3000);
     </script>
 </html>
 

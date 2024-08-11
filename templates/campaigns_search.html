@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+           Top results of Sponsors
+        </title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}"/>   
+    </head>
+    <body>
+        <div class="container2" id="find">
+            <h2 class="c-top">Results</h2> 
+            {% if searches %}
+                {% for s in searches %}
+                <div class="campaigns">
+                    <div class="campaigns">
+                        <h5>{{s.name}}</h5>
+                        <p>{{s.description}}</p>
+                        <p>Campaign ID: {{s.id}}</p>
+                        <p>Category: {{s.category}}</p>
+                        <p>Start Date: {{s.start_date}}</p>
+                        <p>End Date: {{s.end_date}}</p>
+                        <p>Budget: {{s.budget}}</p>
+                        <p>Goals: {{s.goals}}</p>
+                        <div class="new_ad_request">
+                            <a class="btn btn-success ad-request" role="button" id="rcorner">Ad-Request</a>
+                            <!--<a class="btn btn-danger cancel-request" role="button" id="Cancel2">Cancel</a>-->
+                            <div class="Ad-Request" style="display: none;">
+                                <form class="row g-3" method="post" action="/influencer_ad_request/{{u}}/{{s.id}}">
+                                    <label for="messages" class="form-label">Messages</label>
+                                    <input type="text" class="form-control" name="messages" id="messages" required>
+                                    <label for="requirements" class="form-label">Requirements</label>
+                                    <input type="text" class="form-control" name="requirements" id="requirements" required>
+                                    <label for="payment" class="form-label">Payment</label>
+                                    <input type="text" class="form-control" name="payment" id="payment" required>
+                                    <!--<label for="status" class="form-label">Status: </label>-->
+                                    <button type="submit" class="btn btn-warning requested" id="rcorner">Request</button>
+                                    <a class="btn btn-danger cancel-request" role="button" id="Cancel">Cancel</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            <a class="btn btn-success" role="button" href="/influencer_dashboard/{{u}}" id="rcorner">Back</a>
+        </div>
+    </body>
+    <script>
+        document.querySelectorAll(".ad-request").forEach(function(button) {
+            button.addEventListener("click", function() {
+                const request = button.closest(".campaigns");
+                const requestdetails = request.querySelector(".Ad-Request");
+                if (requestdetails.style.display === "none" || request.style.display === "") {
+                    requestdetails.style.display = "block";
+                }  
+            });
+        });
+        document.querySelectorAll('.cancel-request').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const cancelrequest = button.closest('.Ad-Request'); 
+                cancelrequest.style.display = 'none'; 
+            });
+        });
+    </script>
+</html>

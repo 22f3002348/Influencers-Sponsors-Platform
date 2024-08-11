@@ -70,14 +70,15 @@ nav ul li a:hover {
     display: flex;; 
     align-items: center;
     height: auto;
+   
 }
 .container.active {
     display: unset;
 }
-.details {
+.details , .showdetails{
     width: 90%;
     height: 400px;
-    max-width: 900px;
+    max-width: 1300px;
     border: 2px solid rgba(201, 207, 219, 0.5);
     background-color: rgba(255, 255, 255, 0.8);
     padding: 30px; 
@@ -86,6 +87,8 @@ nav ul li a:hover {
     border-radius: 10px;
     position: relative; 
     align-items: center;
+    height: auto;
+    flex-direction: column;
 }
 
 .logo {
@@ -107,7 +110,7 @@ nav ul li a:hover {
 .form-label{
     font-size: large;
 }
-#New, #Cancel,#Cancel2, #showcampaign,#findinfluencer, #rcorner{
+#New,#Edit, #Cancel,#Cancel2, #edit-profile,#cancelprofile, #showcampaign,#findinfluencer, #rcorner{
     border-radius: 25px;
     padding: 20px; 
     width: 170px;
@@ -121,7 +124,7 @@ nav ul li a:hover {
     max-width: 400px;
 }
 
-.showcampaigns, .showexistingcampaigns, .campaigns {
+.showcampaigns,.showrequests, .editcampaigns, .showreceivedrequests, .editexistingcampaigns, .showexistingcampaigns, .viewcampaign, .campaigns {
     width: 90%;
     height: auto;
     max-width: 900px;
@@ -135,9 +138,11 @@ nav ul li a:hover {
     align-items: center;
     flex-direction: column;
     
-
 }
 
+#newcampaign,#editprofile, #editcampaigns{
+    display: none;
+}
 .campaign {
     padding: 15px;
     border: 1px solid #ccc;

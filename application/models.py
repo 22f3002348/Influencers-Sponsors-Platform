@@ -8,9 +8,14 @@ class Campaigns(db.Model):
     start_date = db.Column(db.String, nullable = False)
     end_date  = db.Column(db.String, nullable = False)
     budget = db.Column(db.Float, nullable = False)
+    category = db.Column(db.String, nullable = False)
     visibility = db.Column(db.String, nullable = False)
     goals = db.Column(db.String, nullable = False)
-    sponsor_id = db.Column(db.String, nullable = False)
+    sponsor_id = db.Column(db.String, db.ForeignKey("sponsor.id"), nullable = False)
+    progress = db.Column(db.Float, nullable = False) 
+    sponsor = db.relationship("Sponsors", backref="campaigns")
+    ad_requests = db.relationship("Ad_Request", backref="campaigns", cascade="all, delete")
+ 
 
 class Influencers(db.Model):
     __tablename__= 'influencer'
@@ -21,8 +26,10 @@ class Influencers(db.Model):
     username = db.Column(db.String, nullable = False, unique = True)
     category  = db.Column(db.String, nullable = False)
     niche  = db.Column(db.String, nullable = False)
-    email = db.Column(db.Integer, nullable = False)
+    email = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+
+    ad_requests = db.relationship("Ad_Request", backref="influencer", cascade="all, delete")
     
 class Sponsors(db.Model):
     __tablename__= 'sponsor'
@@ -34,6 +41,8 @@ class Sponsors(db.Model):
     username = db.Column(db.String, nullable = False, unique = True)
     email = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+
+    #campaigns = db.relationship("Campaigns", backref="sponsor")
     
 class Admin(db.Model):
     __tablename__ = 'admin'
@@ -43,10 +52,11 @@ class Admin(db.Model):
 
 class Ad_Request(db.Model):
     __tablename__ = 'ad_request'
-    campaign_id = db.Column(db.Integer, db.ForeignKey("campaigns.campaign_id") ,primary_key=True, nullable = False)
-    influencer_id = db.Column(db.Integer,db.ForeignKey("influencer.influencer_id"), primary_key=True, nullable = False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable = False, unique = True)
+    campaign_id = db.Column(db.Integer, db.ForeignKey("campaigns.id") , nullable = False)
+    influencer_id = db.Column(db.Integer,db.ForeignKey("influencer.id"), nullable = False)
     messages = db.Column(db.String, nullable = False)
     requirements = db.Column(db.String, nullable = False)
     payment = db.Column(db.Integer, nullable = False)
     status = db.Column(db.String, nullable = False)
-
+    last_modified_by = db.Column(db.String, nullable=False)
