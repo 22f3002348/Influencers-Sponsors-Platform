@@ -13,6 +13,7 @@ class Campaigns(db.Model):
     goals = db.Column(db.String, nullable = False)
     sponsor_id = db.Column(db.String, db.ForeignKey("sponsor.id"), nullable = False)
     progress = db.Column(db.Float, nullable = False) 
+    flag = db.Column(db.Integer, nullable = False)
     sponsor = db.relationship("Sponsors", backref="campaigns")
     ad_requests = db.relationship("Ad_Request", backref="campaigns", cascade="all, delete")
  
@@ -28,6 +29,8 @@ class Influencers(db.Model):
     niche  = db.Column(db.String, nullable = False)
     email = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+    flag = db.Column(db.Integer, nullable = False)
+    earnings  = db.Column(db.Float, nullable = False) 
 
     ad_requests = db.relationship("Ad_Request", backref="influencer", cascade="all, delete")
     
@@ -41,6 +44,7 @@ class Sponsors(db.Model):
     username = db.Column(db.String, nullable = False, unique = True)
     email = db.Column(db.String, nullable = False)
     password = db.Column(db.String, nullable = False)
+    flag = db.Column(db.Integer, nullable = False)
 
     #campaigns = db.relationship("Campaigns", backref="sponsor")
     

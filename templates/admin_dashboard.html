@@ -15,80 +15,186 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#info" id="Info">Info</a></li>
-                    <li><a href="#find" id="Find">Find</a></li>
                     <li><a href="#status" id="Status">Status</a></li>
-                    <li><a href="#" id="logout">Logout</a></li>
+                    <li><a href="/users" id="logout">Logout</a></li>
                 </ul>
             </nav>
         </header>    
         
-        <div class="container2" id="info">
-            <div class="campaigns">
-                <h2>New Active Campaigns</h2>
-                <div class="campaign">
-                    <h5>Campaign 2</h5>
-                    <p>Progress: 80%</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                </div>   
-            </div>
-            <div class="campaigns">
-                <h2>Flagged Users/Campaigns</h2>
-                <div class="campaigns">
-                    <h5>Campaign 2</h5>
-                    <p>Company</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-danger" href="#" role="button" id="rcorner">Remove</a>
-                </div>
-                <div class="campaigns">
-                    <h5>Influencer 1</h5>
-                    <p>Details about Influencer 1...</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                    <a class="btn btn-danger" role="button" id="rcorner">Remove</a>
-                </div>
-                <div class="campaigns">
-                    <h5>Sponsor 1</h5>
-                    <p>Details about Sponsor 1...</p>
-                    <a class="btn btn-warning" role="button" id="rcorner">View</a>
-                    <a class="btn btn-danger" role="button" id="rcorner">Remove</a>
-                </div>
-            </div>
+        <div class="container2" id="campaigns">
+            <h2>Active Campaigns</h2>
+                {% if ads %}
+                    {% for a in ads %}
+                        {% if a.campaigns.progress > 0 and a.campaigns.flag ==0%}
+                            <div class="showrequests">
+                                <h5>{{ a.campaigns.name }}</h5>
+                                <p>{{a.campaigns.description }}</p>
+                                <p>Sponsor: {{a.campaigns.sponsor.company }}</p>
+                                <p>Sponsor ID: {{a.campaigns.sponsor.id }}</p>
+                                <p>Influencer ID: {{a.influencer_id }}</p>
+                                <p>Influencer Name: {{a.influencer.fname}} {{a.influencer.lname}}</p>
+                                <p>Progress: {{a.campaigns.progress}} %</p>
+                            </div> 
+                        {% endif %}  
+                    {% endfor %}
+                {% endif %}
         </div>
-        <div class="container" id="find">
-            <!-- <h2 class="c-top">Find</h2> -->
-            <div class="search-box">
-                <input type="text" class="form-control" placeholder="Search..."><br>
-            </div>
-            <div class="campaigns">
-                <div class="campaign">
-                    <h5>Campaign 1</h5>
-                    <p>Details about Campaign 1...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
-                </div>
-                <div class="campaign">
-                    <h5>Influencer 1</h5>
-                    <p>Details about Influencer 1...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
-                </div>
-                <div class="campaign">
-                    <h5>Sponsor 1</h5>
-                    <p>Details about Sponsor 1...</p>
-                    <a class="btn btn-warning" href="#" role="button" id="rcorner">View</a>
-                    <a class="btn btn-success" href="#" role="button" id="rcorner">Flag</a>
-                </div>
-                <!-- Add more campaign items as needed -->
-            </div>
-        </div>
+    
+            
         
-        <div class="container" id="status">
+        <div class="container">
+            <div class="container2">
+                <h2>Campaigns</h2>
+                {% if cam %}
+                    {% for s in cam %}
+                        {% if s.flag ==0 %}
+                            <div class="campaigns">
+                                    <h5>{{s.name}}</h5>
+                                    <p>{{s.description}}</p>
+                                    <p>Campaign ID: {{s.id}}</p>
+                                    <p>Category: {{s.category}}</p>
+                                    <p>Start Date: {{s.start_date}}</p>
+                                    <p>End Date: {{s.end_date}}</p>
+                                    <p>Budget: {{s.budget}}</p>
+                                    <p>Goals: {{s.goals}}</p>
+                                    <p>Visibility: {{s.visibility}}</p> 
+                                    <a class="btn btn-danger flag_campaign" href="/flag_campaign/{{s.id}}/{{aid}}" role="button" id="rcorner">Flag</a>     
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="container2">
+                <h2>Flagged Campaigns</h2>
+                {% if cam %}
+                    {% for s in cam %}
+                        {% if s.flag ==1 %}
+                            <div class="campaigns">
+                                    <h5>{{s.name}}</h5>
+                                    <p>{{s.description}}</p>
+                                    <p>Campaign ID: {{s.id}}</p>
+                                    <p>Category: {{s.category}}</p>
+                                    <p>Start Date: {{s.start_date}}</p>
+                                    <p>End Date: {{s.end_date}}</p>
+                                    <p>Budget: {{s.budget}}</p>
+                                    <p>Goals: {{s.goals}}</p>
+                                    <p>Visibility: {{s.visibility}}</p> 
+                                    <a class="btn btn-danger unflag_campaign" href="/unflag_campaign/{{s.id}}/{{aid}}" role="button" id="rcorner">UnFlag</a>     
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
 
+        <div class="container">
+            <div class="container2">
+                <h2>Active Influencers</h2>
+                {% if inf %}
+                    {% for s in inf %}
+                        {% if s.flag ==0 %}
+                            <div class="campaigns">
+                                <h5>{{ s.fname }} {{s.lname}}</h5>
+                                <p>Influencer ID: {{s.id}}</p>
+                                <p>City: {{s.city}}</p>
+                                <p>Category: {{s.category}}</p>
+                                <p>Niche: {{s.niche}}</p>
+                                <p>Earnings: {{s.earnings}}</p>
+                                <a class="btn btn-danger" href="/flag_influencer/{{s.id}}/{{aid}}" role="button" id="rcorner">Flag</a>
+                            </div>
+                        {% endif %} 
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="container2">
+                <h2>Flagged Influencers</h2>
+                {% if inf %}
+                    {% for s in inf %}
+                        {% if s.flag ==1 %}
+                            <div class="campaigns">
+                                <h5>{{ s.fname }} {{s.lname}}</h5>
+                                <p>Influencer ID: {{s.id}}</p>
+                                <p>City: {{s.city}}</p>
+                                <p>Category: {{s.category}}</p>
+                                <p>Niche: {{s.niche}}</p>
+                                <p>Earnings: {{s.earnings}}</p>
+                                <a class="btn btn-danger" href="/unflag_influencer/{{s.id}}/{{aid}}" role="button" id="rcorner">UnFlag</a>
+                            </div>
+                        {% endif %} 
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="container2">
+                <h2>Active Sponsors</h2>
+                {% if spon %}
+                    {% for s in spon %}
+                        {% if s.flag ==0 %}
+                            <div class="campaigns">
+                                <h5>{{ s.company }}</h5>
+                                <p>Sponsor ID: {{s.id}}</p>
+                                <p>City: {{s.city}}</p>
+                                <p>Industry: {{s.industry}}</p>
+                                <p>Budget: $ {{s.budget}} </p>
+                                <a class="btn btn-danger" href="/flag_sponsor/{{s.id}}/{{aid}}" role="button" id="rcorner">Flag</a>
+                            </div> 
+                        {% endif %}    
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="container2">
+                <h2>Flagged Sponsors</h2>
+                {% if spon %}
+                    {% for s in spon %}
+                        {% if s.flag ==1 %}
+                            <div class="campaigns">
+                                <h5>{{ s.company }}</h5>
+                                <p>Sponsor ID: {{s.id}}</p>
+                                <p>City: {{s.city}}</p>
+                                <p>Industry: {{s.industry}}</p>
+                                <p>Budget: $ {{s.budget}} </p>
+                                <a class="btn btn-danger" href="/unflag_sponsor/{{s.id}}/{{aid}}" role="button" id="rcorner">UnFlag</a>
+                            </div> 
+                        {% endif %}    
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="container2">
+            <h2>Ad-Requests</h2>
+            {% if ads %}
+                     {% for a in ads %}
+                            <div class="showrequests">
+                                <h5>{{ a.campaigns.name }}</h5>
+                                <p>{{a.campaigns.description }}</p>
+                                <p>Sponsor: {{a.campaigns.sponsor.company }}</p>
+                                <p>Sponsor ID: {{a.campaigns.sponsor.id }}</p>
+                                <p>Influencer ID: {{a.influencer_id }}</p>
+                                <p>Influencer Name: {{a.influencer.fname}} {{a.influencer.lname}}</p>
+                                <p>Request Given by: {{a.last_modified_by}}</p>
+                                <p>Payment: {{a.payment}}</p>
+                                {% if a.campaigns.flag ==0 %}
+                                    <p>Status: {{a.status}}</p>
+                                {% else %}
+                                    <p>Status: Flagged</p>
+                                {% endif %}
+                            </div> 
+                    {% endfor %}
+            {% endif %}
+        </div>
+           
+       
+        
+        <div class="container2" id="status">
+            <h2 class="c-top">Status</h2> 
+                {% if status %}
+                    {% for s in status %}
+                        <img src="/{{s}}" alt="{{ s }}">
+                    {% endfor %}
+                {% endif %}
         </div>
 
     </body>
-
-    <script>
-        
-    </script>
 </html>

@@ -73,13 +73,5 @@
         
             
     </body>
-
-    <script>
-      setTimeout(function() {
-            var a = document.getElementById("alert");
-            if (a) {
-                a.style.display = 'none';
-            }
-        }, 3000);
-    </script>
+    <script src="{{ url_for('static', filename='js/influencer_script.js') }}"></script>
 </html>

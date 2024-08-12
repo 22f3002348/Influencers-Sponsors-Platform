@@ -6,7 +6,8 @@ from application.models import Influencers, Sponsors, Admin, Ad_Request, Campaig
 from flask import current_app as app
 from .database import db
 from datetime import datetime
-
+import matplotlib.pyplot as plt
+from sqlalchemy.orm import joinedload
 
 @app.route("/", methods=["GET"])
 def index():
@@ -24,13 +25,111 @@ def users():
 def admin_details():
     username = request.form.get("username")
     password = request.form.get("password")
-
-    u = Admin.query.filter_by(username = username)
+    u = Admin.query.filter_by(username = username).first()
     if(u):
-        return render_template("admin_dashboard.html")
+        if(u.password == password):
+            return redirect(f'/admin_dashboard/{u.id}')
+        else:
+            return render_template("login_error.html")
     else:
         return render_template("login_error.html")
-    
+
+@app.route("/admin_dashboard/<int:aid>", methods=["GET","POST"])
+def admin_dashboard(aid):
+    ads = Ad_Request.query.all()
+    inf = Influencers.query.all()
+    spon = Sponsors.query.all()
+    cam = Campaigns.query.all()
+    imagepaths =[]
+
+    figure, axes = plt.subplots()
+    users = {"Influencers":len(inf), "Sponsors": len(spon)}
+    axes.bar(users.keys(), users.values())
+    imagename = f'Admin{aid}_users.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Total Active Users')
+    plt.xlabel("Users")
+    plt.ylabel("Number")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
+    f_inf = Influencers.query.filter_by(flag=1).all()
+    f_spon = Sponsors.query.filter_by(flag=1).all()
+
+    figure, axes2 = plt.subplots()
+    users = {"Flagged Influencers":len(f_inf), "Flagged Sponsors": len(f_spon)}
+    axes2.bar(users.keys(), users.values())
+    imagename = f'Admin{aid}_flagged_users.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Total Flagged Users')
+    plt.xlabel("Users")
+    plt.ylabel("Number")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
+    camp = Campaigns.query.filter_by(flag =0).all()
+    f_cam = Campaigns.query.filter_by(flag =1).all()
+
+    figure, axes3 = plt.subplots()
+    users = {"Campaigns":len(camp), "Flagged Campaigns": len(f_cam)}
+    axes3.bar(users.keys(), users.values())
+    imagename = f'Admin{aid}_flagged_campaigns.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Flagged and Active Campaigns')
+    plt.xlabel("Campaigns")
+    plt.ylabel("Number")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
+    return render_template("admin_dashboard.html",aid = aid, ads = ads,status = imagepaths, inf = inf, spon = spon, cam = cam)
+
+@app.route("/flag_campaign/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def flag_campaign(fid,aid):
+    f = Campaigns.query.filter_by(id = fid).first()
+    f.flag = 1
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
+
+@app.route("/unflag_campaign/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def unflag_campaign(fid,aid):
+    f = Campaigns.query.filter_by(id = fid).first()
+    f.flag = 0
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
+
+@app.route("/flag_influencer/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def flag_influencer(fid,aid):
+    f = Influencers.query.filter_by(id = fid).first()
+    f.flag = 1
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
+
+@app.route("/unflag_influencer/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def unflag_influencer(fid,aid):
+    f = Influencers.query.filter_by(id = fid).first()
+    f.flag = 0
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
+
+@app.route("/flag_sponsor/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def flag_sponsor(fid,aid):
+    f = Sponsors.query.filter_by(id = fid).first()
+    f.flag = 1
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
+
+@app.route("/unflag_sponsor/<int:fid>/<int:aid>", methods = ["GET","POST"])
+def unflag_sponsor(fid,aid):
+    f = Sponsors.query.filter_by(id = fid).first()
+    f.flag = 0
+    db.session.commit()
+    return redirect(f'/admin_dashboard/{aid}')
+
 @app.route("/sponsor",methods=["GET"])
 def sponsor():
     return render_template("sponsor_login.html")
@@ -94,7 +193,7 @@ def influencer_details():
             flash("Email already exists!!!")
             return render_template("influencer_register.html")
     
-        new_influencer = Influencers(fname = fname, lname = lname, city = city, username = uname, category = category, niche = niche, email = email, password = password)
+        new_influencer = Influencers(fname = fname, lname = lname, city = city, username = uname, category = category, niche = niche, email = email, password = password, flag=0, earnings = 0.0)
         db.session.add(new_influencer)
         db.session.commit()
         return render_template("influencer_login.html")
@@ -154,7 +253,7 @@ def sponsor_details():
         flash("Email already exists!!!")
         return redirect(url_for('sponsor_register'))
  
-    new_sponsor = Sponsors(company = company, city = city, industry = industry, budget = budget,  username = uname, email = email, password = password)
+    new_sponsor = Sponsors(company = company, city = city, industry = industry, budget = budget,  username = uname, email = email, password = password, flag=0)
     db.session.add(new_sponsor)
     db.session.commit()
     return render_template("sponsor_login.html")
@@ -204,7 +303,7 @@ def add_campaigns(uid):
     visibility = request.form.get("visibility")
     goals = request.form.get("goals")
     progress = 0.0
-    new_campaign = Campaigns(name = name, description=description, start_date = startdate, end_date = enddate, budget = budget, category=category ,visibility = visibility, goals = goals, sponsor_id = uid, progress = progress)
+    new_campaign = Campaigns(name = name, description=description, start_date = startdate, end_date = enddate, budget = budget, category=category ,visibility = visibility, goals = goals, sponsor_id = uid, progress = progress, flag=0)
     db.session.add(new_campaign)
     db.session.commit()
     return redirect(f'/sponsor_dashboard/{uid}')
@@ -339,21 +438,24 @@ def sponsor_reject_ad_request(rid):
 @app.route("/search_influencer/<int:uid>",methods = ["GET","POST"])
 def search_influencer(uid):
     search = request.form.get("search-influencer")
-    influencers = Influencers.query.filter(or_(Influencers.fname.like(f'%{search}%'), Influencers.lname.like(f'%{search}%'), Influencers.category.like(f'%{search}%'), Influencers.niche.like(f'%{search}%'))).all()
+    influencers = Influencers.query.filter(and_(or_(Influencers.fname.like(f'%{search}%'), Influencers.lname.like(f'%{search}%'), Influencers.category.like(f'%{search}%'), Influencers.niche.like(f'%{search}%')), Influencers.flag == 0 )).all()
     return render_template("influencers_search.html", searches = influencers, u=uid)
   
 @app.route("/search_campaign/<int:uid>",methods = ["GET","POST"])
 def search_campaign(uid):
     search = request.form.get("search-campaign")
-    campaigns = Campaigns.query.filter(and_(or_( Campaigns.name.like(f'%{search}%'), Campaigns.category.like(f'%{search}%')), Campaigns.visibility=="public")).all()
+    campaigns = Campaigns.query.filter(and_(or_( Campaigns.name.like(f'%{search}%'), Campaigns.category.like(f'%{search}%')), Campaigns.visibility=="public", Campaigns.flag == 0 )).all()
     return render_template("campaigns_search.html", searches = campaigns, u=uid)
 
 @app.route("/influencer_dashboard/<int:iid>",methods=["GET","POST"])
 def influencer_dashboard(iid):
     influencer = Influencers.query.filter_by(id = iid).first()
-    received_ad_requests = Ad_Request.query.filter(Ad_Request.influencer_id == iid, Ad_Request.status =="Pending" ).all()
-    accepted_ad_requests = Ad_Request.query.filter(Ad_Request.influencer_id == iid, Ad_Request.status =="Accepted").all()
+    received_ad_requests = Ad_Request.query.join(Ad_Request.campaigns).filter( Ad_Request.influencer_id == iid, Ad_Request.status == "Pending", Campaigns.flag == 0).options(joinedload(Ad_Request.campaigns)).all()  
+    accepted_ad_requests = Ad_Request.query.join(Ad_Request.campaigns).filter(Ad_Request.influencer_id == iid,Ad_Request.status == "Accepted",Campaigns.flag == 0).options(joinedload(Ad_Request.campaigns)).all()
     currentdate = datetime.now()
+    accepted_dict ={}
+    days_dict ={}
+    imagepaths = []
     for ad in accepted_ad_requests:
         startdate = datetime.strptime(ad.campaigns.start_date, "%d/%m/%Y")
         enddate = datetime.strptime(ad.campaigns.end_date, "%d/%m/%Y")
@@ -364,16 +466,41 @@ def influencer_dashboard(iid):
             progress_percentage = 100/days
             if(((currentdate - startdate).days * progress_percentage) != ad.campaigns.progress):
                 ad.campaigns.progress = math.trunc((currentdate - startdate).days * progress_percentage)
+                
         elif(currentdate >= enddate):
-            ad.campaigns.progress = 100.0
+            ad.campaigns.progress = 100.0 
+            ad.influencer.earnings += (ad.payment)  
+        accepted_dict[ad.campaigns.name] = ad.campaigns.progress
+        days_dict[ad.campaigns.name] = (enddate-startdate).days
+    
+    figure, axes2 = plt.subplots()
+    axes2.bar(days_dict.keys(), days_dict.values())
+    imagename = f'influencer{iid}_campaigns_days.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Campaigns - Duration')
+    plt.xlabel("Campaigns")
+    plt.ylabel("Duration (in days)")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
+    figure, axes = plt.subplots()
+    axes.set_ylim(0,100)
+    axes.bar(accepted_dict.keys(), accepted_dict.values())
+    imagename = f'influencer{iid}_campaigns.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Campaigns - Progress')
+    plt.xlabel("Campaigns")
+    plt.ylabel("Progress (in %)")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
     db.session.commit()
-    return render_template("influencer_dashboard.html",d=influencer,aad = accepted_ad_requests, ad = received_ad_requests)
+    return render_template("influencer_dashboard.html",d=influencer,aad = accepted_ad_requests,status=imagepaths, ad = received_ad_requests)
 
 
 @app.route("/sponsor_dashboard/<int:sid>",methods=["GET","POST"])
 def sponsor_dashboard(sid):
-    sponsor = Sponsors.query.filter_by(id = sid).first()
-    campaigns = Campaigns.query.filter_by(sponsor_id = sid).all()
+    sponsor = Sponsors.query.filter_by(id = sid, flag = 0).first()
+    campaigns = Campaigns.query.filter_by(sponsor_id = sid, flag =0).all()
     ad_requests = []
     received_ad_requests = []
     accepted_ad_requests = []
@@ -387,6 +514,9 @@ def sponsor_dashboard(sid):
                 accepted_ad_requests.append(ad_request)
     
     currentdate = datetime.now()
+    days_dict = {}
+    accepted_dict ={}
+    imagepaths = []
     for ad in accepted_ad_requests:
         startdate = datetime.strptime(ad.campaigns.start_date, "%d/%m/%Y")
         enddate = datetime.strptime(ad.campaigns.end_date, "%d/%m/%Y")
@@ -399,20 +529,37 @@ def sponsor_dashboard(sid):
                 ad.campaigns.progress = math.trunc((currentdate - startdate).days * progress_percentage)
         elif(currentdate >= enddate):
             ad.campaigns.progress = 100.0
+        days_dict[ad.campaigns.name] = (enddate-startdate).days
+        accepted_dict[ad.campaigns.name] = ad.campaigns.progress
+
+    for campaign in campaigns:
+        if campaign.name not in days_dict.keys():
+            startdate = datetime.strptime(campaign.start_date, "%d/%m/%Y")
+            enddate = datetime.strptime(campaign.end_date, "%d/%m/%Y")
+            days_dict[campaign.name] = (enddate-startdate).days
+
+    figure, axes2 = plt.subplots()
+    axes2.bar(days_dict.keys(), days_dict.values())
+    imagename = f'sponsor{sid}_campaigns_days.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Campaigns - Duration')
+    plt.xlabel("Campaigns")
+    plt.ylabel("Duration (in days)")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
+    figure, axes = plt.subplots()
+    axes.set_ylim(0,100)
+    axes.bar(accepted_dict.keys(), accepted_dict.values())
+    imagename = f'sponsor{sid}_campaigns.jpg'
+    imagepath = os.path.join('static', 'images', imagename)
+    plt.title(f'Campaigns - Progress')
+    plt.xlabel("Campaigns")
+    plt.ylabel("Progress (in %)")
+    plt.savefig(imagepath)
+    imagepaths.append(imagepath)
+
     db.session.commit()  
-    return render_template("sponsor_dashboard.html",d=sponsor, c = campaigns, aad = accepted_ad_requests, rad = received_ad_requests, ad = ad_requests)
+    return render_template("sponsor_dashboard.html",d=sponsor, c = campaigns, aad = accepted_ad_requests, status=imagepaths, rad = received_ad_requests, ad = ad_requests)
   
-'''
-@app.route("/admin_dashboard",methods=["GET","POST"])
-def admin_dashboard():
-    return render_template("admin_dashboard.html")  
 
-@app.route("/profile_influencer",methods=["GET","POST"])
-def profile_influencer():
-    return render_template("influencer_dashboard.html",name="Hariharan")
-
-@app.route("/find_influencer",methods=["GET","POST"])
-def find_influencer():
-    return render_template("influencer_dashboard.html",find="Hariharan")
-
-'''

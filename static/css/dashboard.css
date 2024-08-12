@@ -10,7 +10,7 @@ h2{
     margin-top: auto;
 }
 body{
-    background-image: url("{{ url_for('static', filename='images/influencer_bg.webp') }}");
+    background-image: url("/static/images/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     
