@@ -26,24 +26,21 @@
         {% if d.flag ==0 %}    
             <div class="container2" id="profile">
                 <h2 class="c-top">Profile</h2>
-                <!--<div class="logo">
-                    <img src="{{ url_for('static', filename='images/HARI2.jpg') }}" alt="profile pic">
-                </div>-->
                 <div class = "details">
                         <div class="row border">
-                            <label for="name" class="form-label">Name: {{d.fname}} {{d.lname}}</label>
+                            <label for="name" class="form-label"><b><i>Name:</i></b> {{d.fname}} {{d.lname}}</label>
                         </div>
                         <div class="row border">
-                            <label for="username" class="form-label">Username: {{d.username}}</label>
+                            <label for="username" class="form-label"><b><i>Username:</i></b> {{d.username}}</label>
                         </div>
                         <div class="row border">
-                            <label for="email" class="form-label">Email: {{d.email}}</label>
+                            <label for="email" class="form-label"><b><i>Email:</i></b> {{d.email}}</label>
                         </div>
                         <div class="row border">
-                            <label for="category" class="form-label">Category: {{d.category}}</label>
+                            <label for="category" class="form-label"><b><i>Category:</i></b> {{d.category}}</label>
                         </div>
                         <div class="row border">
-                            <label for="niche" class="form-label">Niche: {{d.niche}}</label>
+                            <label for="niche" class="form-label"><b><i>Niche:</i></b> {{d.niche}}</label>
                         </div>
                         <a class="btn btn-primary" role="button" id="edit-profile">Edit Profile</a>
                 </div>

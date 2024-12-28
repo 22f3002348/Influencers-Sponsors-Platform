@@ -499,7 +499,7 @@ def influencer_dashboard(iid):
 
 @app.route("/sponsor_dashboard/<int:sid>",methods=["GET","POST"])
 def sponsor_dashboard(sid):
-    sponsor = Sponsors.query.filter_by(id = sid, flag = 0).first()
+    sponsor = Sponsors.query.filter_by(id = sid).first()
     campaigns = Campaigns.query.filter_by(sponsor_id = sid, flag =0).all()
     ad_requests = []
     received_ad_requests = []

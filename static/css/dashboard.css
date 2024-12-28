@@ -10,7 +10,8 @@ h2{
     margin-top: auto;
 }
 body{
-    background-image: url("/static/images/background.jpg");
+    /* background-image: url("/static/images/background.jpg"); */
+    background: linear-gradient(135deg, #87CEEB, #E0FFFF);
     background-size: cover;
     background-repeat: no-repeat;
     
@@ -18,7 +19,7 @@ body{
 header {
     width: 100%;
     padding: 20px;
-    background-color: aqua;
+    background: linear-gradient(135deg, #87CEEB, #E0FFFF);
     color: #fff;
     display: flex;
     justify-content: space-between;
